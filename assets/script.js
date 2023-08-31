@@ -22,13 +22,21 @@ let indexSlide = 0
 const arrowLeft = document.getElementById('arrow_left')
 const arrowRight = document.getElementById('arrow_right')
 const dots = document.querySelector('.dots')
+const imgBanner = document.querySelector('.banner-img')
+const tagLine = document.getElementById('tag-line')
 
-arrowLeft.addEventListener('click',ChangeSlide() => {
-	console.log("click sur fleche gauche")
+arrowLeft.addEventListener('click', () => {
+	if (indexSlide === 0) {
+		indexSlide = slides.length - 1
+	} else {
+		indexSlide = indexSlide - 1
+	}
+
+	console.log("click sur fleche gauche - indexSlide:", indexSlide)
+	updateDots()
 })
 
-arrowRight.addEventListener('click',ChangeSlide() => {
-
+arrowRight.addEventListener('click', () => {
 	if (indexSlide === slides.length - 1) {
 		indexSlide = 0
 	} else {
@@ -38,6 +46,11 @@ arrowRight.addEventListener('click',ChangeSlide() => {
 	console.log("click sur fleche droite - indexSlide:", indexSlide)
 	updateDots()
 })
+
+const updateImageAndTagLine = () => {
+	imgBanner.src = `./assets/images/slideshow/${slides[indexSlide].image}`
+	tagLine.innerHTML = slides[indexSlide].tagLine
+}
 
 const updateDots = () => {
 	// Clean dots container (ça supprimme tous les éléments enfants du container dots)
@@ -55,15 +68,8 @@ const updateDots = () => {
 		}
 		dots.appendChild(dot)
 	})
+
+	updateImageAndTagLine()
 }
 
 updateDots()
-
-function ChangeSlide(sens) {
-	indexSlide = indexSlide + sens;
-	if (indexSlide < 0)
-	indexSlide = slides.length - 1;
-if (indexSlide > slides.length - 1)
-    indexSlide = 0;
-document.getElementById("slides").src = slides[indexSlide];
-}
